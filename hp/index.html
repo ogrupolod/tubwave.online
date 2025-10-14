@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Healing App Quiz – Find Your Healing Frequency</title>
+  <meta name="description" content="Take this short 5-step quiz to discover the perfect Healing App sound journey for your body and mind." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {--bg:#fff;--ink:#111827;--muted:#6b7280;--accent:#0ea5e9;--accent-ink:#fff;--line:#e5e7eb;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px;text-align:center}
+    h1{font-size:2.2rem;margin-bottom:0.5rem}
+    p{color:var(--muted)}
+    .quiz-step{display:none;animation:fade .4s ease}
+    .active{display:block}
+    button{background:var(--accent);color:var(--accent-ink);border:none;border-radius:8px;padding:12px 22px;margin-top:20px;font-size:1rem;cursor:pointer;transition:.2s}
+    button:hover{opacity:.9}
+    .options{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+    .option{border:1px solid var(--line);border-radius:8px;padding:14px;font-weight:500;cursor:pointer;transition:.2s}
+    .option:hover{border-color:var(--accent);color:var(--accent)}
+    .progress{height:8px;background:var(--line);border-radius:4px;margin:30px 0;overflow:hidden}
+    .bar{height:8px;width:0;background:var(--accent);transition:width .4s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .result{display:none}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Find Your Healing Frequency</h1>
+    <p>Answer 5 quick questions to discover the sound that matches your current emotional and physical state.</p>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+
+    <div id="step1" class="quiz-step active">
+      <h2>1. What do you feel you need most right now?</h2>
+      <div class="options">
+        <div class="option" data-next="2">Deep Relaxation</div>
+        <div class="option" data-next="2">Energy & Focus</div>
+        <div class="option" data-next="2">Emotional Balance</div>
+        <div class="option" data-next="2">Better Sleep</div>
+      </div>
+    </div>
+
+    <div id="step2" class="quiz-step">
+      <h2>2. How do you usually handle stress?</h2>
+      <div class="options">
+        <div class="option" data-next="3">I meditate or rest</div>
+        <div class="option" data-next="3">I get anxious and restless</div>
+        <div class="option" data-next="3">I distract myself with activities</div>
+        <div class="option" data-next="3">I find it hard to calm down</div>
+      </div>
+    </div>
+
+    <div id="step3" class="quiz-step">
+      <h2>3. What time of day do you feel most unbalanced?</h2>
+      <div class="options">
+        <div class="option" data-next="4">Morning</div>
+        <div class="option" data-next="4">Afternoon</div>
+        <div class="option" data-next="4">Evening</div>
+        <div class="option" data-next="4">Night</div>
+      </div>
+    </div>
+
+    <div id="step4" class="quiz-step">
+      <h2>4. What describes your current mood best?</h2>
+      <div class="options">
+        <div class="option" data-next="5">Tired</div>
+        <div class="option" data-next="5">Overwhelmed</div>
+        <div class="option" data-next="5">Unfocused</div>
+        <div class="option" data-next="5">Calm but low energy</div>
+      </div>
+    </div>
+
+    <div id="step5" class="quiz-step">
+      <h2>5. What would you like to feel after listening?</h2>
+      <div class="options">
+        <div class="option" data-result="sleep">Peaceful & Rested</div>
+        <div class="option" data-result="focus">Focused & Motivated</div>
+        <div class="option" data-result="energy">Energized & Light</div>
+        <div class="option" data-result="calm">Balanced & Grounded</div>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <h2>Your Healing Frequency</h2>
+      <p id="resultText"></p>
+      <button onclick="location.reload()">Restart Quiz</button>
+      <div style="margin-top:20px">
+        <a href="#" style="text-decoration:none"><button>Download Healing App</button></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const steps=document.querySelectorAll('.quiz-step');
+    const bar=document.getElementById('bar');
+    const resultBox=document.getElementById('result');
+    const resultText=document.getElementById('resultText');
+
+    document.querySelectorAll('.option').forEach(opt=>{
+      opt.addEventListener('click',()=>{
+        const next=opt.dataset.next;
+        const result=opt.dataset.result;
+        steps.forEach(s=>s.classList.remove('active'));
+        if(result){
+          showResult(result);
+        } else {
+          document.getElementById('step'+next).classList.add('active');
+          updateBar(next);
+        }
+      });
+    });
+
+    function updateBar(step){
+      const width=(step-1)*25;
+      bar.style.width=width+'%';
+    }
+
+    function showResult(type){
+      bar.style.width='100%';
+      let text='';
+      switch(type){
+        case 'sleep': text='You need the Deep Sleep Frequency – gentle waves to calm your mind and guide you into natural rest.'; break;
+        case 'focus': text='You’ll benefit from the Focus & Clarity Frequency – crafted to sharpen concentration and elevate productivity.'; break;
+        case 'energy': text='Try the Energy Boost Frequency – light pulses designed to recharge your body’s natural rhythm.'; break;
+        case 'calm': text='Your ideal match is the Heart Restorer Frequency – emotional balance and inner harmony through sound.'; break;
+      }
+      resultText.textContent=text;
+      resultBox.style.display='block';
+    }
+  </script>
+</body>
+</html>
