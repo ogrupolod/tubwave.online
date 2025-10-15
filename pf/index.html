@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Jornada con mi Ángel – Descubre el mensaje de tu ángel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {--bg:#fff;--ink:#1b1b1b;--accent:#c9a54b;--muted:#555;--line:#e5e5e5;}
+    *{box-sizing:border-box}
+    body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--ink);margin:0;text-align:center;padding:0;}
+    .container{max-width:700px;margin:0 auto;padding:40px 20px;}
+    h1{font-size:2rem;margin-bottom:10px;}
+    p{color:var(--muted);line-height:1.6;}
+    .quiz-step{display:none;animation:fade .4s ease;}
+    .active{display:block;}
+    .option{border:1px solid var(--line);border-radius:10px;padding:14px;margin:10px 0;cursor:pointer;transition:.2s;}
+    .option:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+    button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:12px 28px;font-size:1rem;cursor:pointer;margin-top:20px;transition:.2s;}
+    button:hover{opacity:.9;}
+    .progress{height:8px;background:#eee;border-radius:4px;margin:30px 0;overflow:hidden;}
+    .bar{height:8px;background:var(--accent);width:0;transition:width .3s ease;}
+    @keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+    .result{display:none;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Descubre el mensaje de tu Ángel Guardián ✨</h1>
+    <p>Responde este breve test espiritual y descubre la energía celestial que quiere guiarte hoy.</p>
+
+    <div class="progress"><div class="bar" id="bar"></div></div>
+
+    <div id="step1" class="quiz-step active">
+      <h2>1. ¿Qué sientes que te falta últimamente?</h2>
+      <div class="option" data-next="2">Paz interior</div>
+      <div class="option" data-next="2">Claridad en mis decisiones</div>
+      <div class="option" data-next="2">Esperanza y fe</div>
+      <div class="option" data-next="2">Protección espiritual</div>
+    </div>
+
+    <div id="step2" class="quiz-step">
+      <h2>2. ¿Con qué frecuencia sientes la presencia de tu ángel?</h2>
+      <div class="option" data-next="3">Casi todos los días</div>
+      <div class="option" data-next="3">Solo en momentos difíciles</div>
+      <div class="option" data-next="3">Rara vez, pero sé que está conmigo</div>
+      <div class="option" data-next="3">No estoy seguro, pero me gustaría sentirlo</div>
+    </div>
+
+    <div id="step3" class="quiz-step">
+      <h2>3. ¿Qué signo divino has notado últimamente?</h2>
+      <div class="option" data-next="4">Números repetidos (11:11, 333…)</div>
+      <div class="option" data-next="4">Sueños vívidos o reveladores</div>
+      <div class="option" data-next="4">Plumas, luces o destellos</div>
+      <div class="option" data-next="4">No he notado nada… pero quiero abrirme</div>
+    </div>
+
+    <div id="step4" class="quiz-step">
+      <h2>4. ¿Qué deseas sanar o transformar en tu vida?</h2>
+      <div class="option" data-next="5">Mi corazón y emociones</div>
+      <div class="option" data-next="5">Mi relación con Dios</div>
+      <div class="option" data-next="5">Mi energía y propósito</div>
+      <div class="option" data-next="5">Mis miedos y bloqueos</div>
+    </div>
+
+    <div id="step5" class="quiz-step">
+      <h2>5. ¿Qué quisieras recibir de tu ángel ahora mismo?</h2>
+      <div class="option" data-result="paz">Una señal de paz y serenidad</div>
+      <div class="option" data-result="fe">Un impulso de fe y esperanza</div>
+      <div class="option" data-result="proteccion">Una bendición de protección divina</div>
+      <div class="option" data-result="claridad">Una guía clara para seguir mi camino</div>
+    </div>
+
+    <div id="result" class="result">
+      <h2>🌤️ Tu mensaje celestial</h2>
+      <p id="resultText"></p>
+      <button onclick="location.reload()">Volver a empezar</button>
+      <div style="margin-top:20px;">
+        <a href="#" style="text-decoration:none;"><button>Iniciar La Jornada con Mi Ángel</button></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const steps=document.querySelectorAll('.quiz-step');
+    const bar=document.getElementById('bar');
+    const resultBox=document.getElementById('result');
+    const resultText=document.getElementById('resultText');
+
+    document.querySelectorAll('.option').forEach(opt=>{
+      opt.addEventListener('click',()=>{
+        const next=opt.dataset.next;
+        const result=opt.dataset.result;
+        steps.forEach(s=>s.classList.remove('active'));
+        if(result){showResult(result);}else{document.getElementById('step'+next).classList.add('active');updateBar(next);}
+      });
+    });
+
+    function updateBar(step){const width=(step-1)*25;bar.style.width=width+'%';}
+
+    function showResult(type){
+      bar.style.width='100%';
+      let text='';
+      switch(type){
+        case 'paz':text='Tu ángel te dice: “Detén el ruido, escucha el silencio. La paz que buscas ya vive dentro de ti.”';break;
+        case 'fe':text='Tu ángel te susurra: “La fe no es creer sin ver, es ver con el corazón. No estás solo.”';break;
+        case 'proteccion':text='Tu ángel te envuelve con su luz: “Nada puede dañarte cuando caminas bajo mis alas.”';break;
+        case 'claridad':text='Tu ángel te guía: “Las respuestas llegarán cuando el miedo se vaya. Confía en la luz.”';break;
+      }
+      resultText.textContent=text;
+      resultBox.style.display='block';
+    }
+  </script>
+</body>
+</html>
